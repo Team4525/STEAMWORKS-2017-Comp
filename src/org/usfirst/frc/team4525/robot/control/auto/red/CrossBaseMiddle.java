@@ -16,7 +16,6 @@ public class CrossBaseMiddle implements Controller {
 	@Override
 	public void start() {
 		// TODO Auto-generated method stub
-		commands.start();
 		try {
 			commands.queSequential(new DriveStraight(12, 0.7));
 			commands.queSequential(new Rotate(-45));

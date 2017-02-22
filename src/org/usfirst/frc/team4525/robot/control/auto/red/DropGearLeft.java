@@ -20,7 +20,6 @@ public class DropGearLeft implements Controller {
 	@Override
 	public void start() {
 		// TODO Auto-generated method stub
-		commands.start();
 		try {
 			commands.queSequential(new DriveStraight(94, 0.5));
 			commands.queSequential(new Rotate(50));

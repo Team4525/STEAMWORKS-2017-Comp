@@ -79,7 +79,7 @@ public class DriveDistanceToWall implements Command {
 		SmartDashboard.putString("distance driven:", Double.toString(output));
 		SmartDashboard.putString("encoder actual:", Double.toString(encode.get()));
 
-		if (Math.abs(distance) > output && (sonic.get() > 12)) {
+		if (Math.abs(distance) > output && (sonic.get() > 14)) {
 			double power = Math.abs(pid.getOutput(output));
 			double offset = driveStrait.getOutput(gyro.get());
 

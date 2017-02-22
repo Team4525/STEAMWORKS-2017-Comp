@@ -14,7 +14,6 @@ public class CrossBaseSide implements Controller {
 	@Override
 	public void start() {
 		// TODO Auto-generated method stub
-		commands.start();
 		try {
 			commands.queSequential(new DriveStraight(250, 0.7));
 

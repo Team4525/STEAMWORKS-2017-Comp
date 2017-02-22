@@ -17,7 +17,6 @@ public class DropGearCrossBaseRight implements Controller {
 	@Override
 	public void start() {
 		// TODO Auto-generated method stub
-		commands.start();
 		try {
 
 			commands.queSequential(new DriveStraight(85, 0.5));

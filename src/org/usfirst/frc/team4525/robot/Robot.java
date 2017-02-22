@@ -46,10 +46,11 @@ public class Robot extends SampleRobot {
 
 		auto = (Controller) autos.getSelectedAuto();
 		du.log("Running " + auto.toString());
-		commands.start();
+		//commands.start();
 		//
 		if (auto != null) {
 			auto.start();
+			commands.start();
 		}
 		//
 		/*
@@ -77,6 +78,7 @@ public class Robot extends SampleRobot {
 		//
 		if (auto != null)
 			auto.stop();
+		//
 		commands.stop();
 		//
 	}

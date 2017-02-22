@@ -19,7 +19,6 @@ public class DropGearCrossBaseMiddle implements Controller {
 	@Override
 	public void start() {
 		// TODO Auto-generated method stub
-		commands.start();
 		try {
 			commands.queSequential(new DriveDistanceToWall(88, 0.45));
 			// drop gear
