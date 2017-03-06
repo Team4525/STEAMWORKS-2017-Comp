@@ -82,6 +82,10 @@ public class DriveImpl implements Drive {
 		// button stupid thing
 		// end of button thing
 
+		// otherwise we lettin the throttle go
+		if(Math.abs(off) > deadzone || voltage.get() < 7)  
+			power = power * 0.8;
+		
 		// Whether we are driving strait or not
 		if (drive_strait == true && (Math.abs(off) <= deadzone && Math.abs(power) > 0)) {
 			if (gyroReset == false) {
@@ -111,8 +115,6 @@ public class DriveImpl implements Drive {
 			off = off * 0.4; // take 70% of 70%
 		}
 		
-		if(off != 0 || voltage.get() < 7)  
-			power = power * 0.8;
 		/*
 		 * SmartDashboard.putString("Encoder:", Double.toString(encoder.get()));
 		 * SmartDashboard.putString("DriveStrait Correction:",
