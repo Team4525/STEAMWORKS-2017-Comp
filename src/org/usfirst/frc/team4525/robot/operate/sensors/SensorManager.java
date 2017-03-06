@@ -19,13 +19,18 @@ public class SensorManager {
 	private Sensor encoder;
 	private Sensor sonic_left;
 	// private Sensor sonic_middle;
-	private Sensor gear_switch;
+	private Sensor voltage;
+	//	private Sensor gear_switch;
 	private Sensor vision;
 
 	// Getters
 
 	public Sensor getVision() {
 		return vision;
+	}
+	
+	public Sensor getVoltage() {
+		return voltage;
 	}
 
 	public Sensor getGyro() {
@@ -40,9 +45,12 @@ public class SensorManager {
 		return sonic_left;
 	}
 
+	// This switch has been problematic.
+	/*
 	public Sensor getGearOrientation() {
 		return gear_switch;
-	}
+	} 
+	*/ 
 
 	// public Sensor getDistanceFromMiddle() {
 	// return sonic_middle;
@@ -53,16 +61,18 @@ public class SensorManager {
 		gyro = new Gyro();
 		encoder = new DriveEncoders();
 		sonic_left = new Proximity();
-		gear_switch = new GearSwitch();
+		//gear_switch = new GearSwitch();
 		vision = new Vision();
+		voltage = new Voltage();
 		// sonic_middle = new MiddleSonic();
 		//
 		gyro.init();
 		encoder.init();
 		sonic_left.init();
+		voltage.init();
 		// sonic_middle.init();
 		vision.init();
-		gear_switch.init();
+	//	gear_switch.init();
 		//
 		DashUtil.getInstance().log("Sensors online.");
 		//

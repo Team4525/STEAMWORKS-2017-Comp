@@ -33,7 +33,9 @@ public class Driver implements Controller {
 				Sensor vision = SensorManager.getInstance().getVision();
 				Visioning visionTargeting = SubsystemsManager.getInstance().getVisionUtil();
 				Sensor sonic_left = SensorManager.getInstance().getFrontRange();
-				Sensor gear_switch = SensorManager.getInstance().getGearOrientation();
+				
+				// Sensor ended up causing a null pointer problem
+			//	Sensor gear_switch = SensorManager.getInstance().getGearOrientation();
 
 				drive_train.setDeadZone(0.15);
 				drive_train.setDriveStrait(true);
@@ -48,7 +50,9 @@ public class Driver implements Controller {
 				while (active == true) {
 
 					SmartDashboard.putString("Distance from front of robot:", Double.toString(sonic_left.get()));
-
+					
+					// code causing null pointers
+					/*
 					String orientation = null;
 					if (gear_switch.get() == 4525) {
 						orientation = "RIGHT";
@@ -56,6 +60,7 @@ public class Driver implements Controller {
 						orientation = "LEFT";
 					}
 					SmartDashboard.putString("Allign:", orientation);
+					*/
 
 					// For inverting the values that are fed to the drive train
 					if (Math.abs(xbox.getAxis(Axis.LeftY)) < 0.2) {

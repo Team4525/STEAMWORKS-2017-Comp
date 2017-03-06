@@ -17,6 +17,9 @@ public class DriveImpl implements Drive {
 	//
 	private double deadzone = 0;
 
+	// 
+	private Sensor voltage;
+	
 	// Drive Strait
 	private Sensor gyro;
 	private boolean gyroReset = false;
@@ -39,6 +42,9 @@ public class DriveImpl implements Drive {
 		right = new VictorSP[] { new VictorSP(2), new VictorSP(3) };
 		//
 		gyro = SensorManager.getInstance().getGyro();
+		
+		//
+		voltage = SensorManager.getInstance().getVoltage();
 
 		// Set the PID loop for the drive strait logic
 
@@ -104,8 +110,9 @@ public class DriveImpl implements Drive {
 		if (off > 0 && Math.abs(power) > 0.5) {
 			off = off * 0.4; // take 70% of 70%
 		}
-
-		power = power * 0.8;
+		
+		if(off != 0 || voltage.get() < 7)  
+			power = power * 0.8;
 		/*
 		 * SmartDashboard.putString("Encoder:", Double.toString(encoder.get()));
 		 * SmartDashboard.putString("DriveStrait Correction:",
