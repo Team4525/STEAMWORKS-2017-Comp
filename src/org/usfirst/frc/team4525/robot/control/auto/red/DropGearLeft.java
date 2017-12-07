@@ -4,7 +4,6 @@ import org.usfirst.frc.team4525.robot.control.Controller;
 import org.usfirst.frc.team4525.robot.operate.autosystems.CommandManager;
 import org.usfirst.frc.team4525.robot.operate.autosystems.commands.DriveDistanceToWall;
 import org.usfirst.frc.team4525.robot.operate.autosystems.commands.DriveStraight;
-import org.usfirst.frc.team4525.robot.operate.autosystems.commands.GearFinder;
 import org.usfirst.frc.team4525.robot.operate.autosystems.commands.OpenClamp;
 import org.usfirst.frc.team4525.robot.operate.autosystems.commands.PushGear;
 import org.usfirst.frc.team4525.robot.operate.autosystems.commands.Rotate;
@@ -13,7 +12,7 @@ import org.usfirst.frc.team4525.robot.util.DashUtil;
 
 public class DropGearLeft implements Controller {
 
-	// DONE AND WORKING
+	// Drop the gear on the peg starting from the center on the red side.  
 
 	private CommandManager commands = CommandManager.getInstance();
 

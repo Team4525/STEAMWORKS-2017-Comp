@@ -8,17 +8,18 @@ public class LifterPlateImpl implements HomePlate {
 	private Piston lifter;
 
 	public void init() {
-		lifter = new Piston(3,2, false); // 2,3, false
+		lifter = new Piston(3, 2, false);
+		// Define the lifter
 	}
 
 	public void up() {
 		lifter.extend();
-		// lifter.countTime();
+		// Raise the lifter
 	}
 
 	public void down() {
 		lifter.retract();
-		// lifter.countTime();
+		// lower the lifter
 
 	}
 

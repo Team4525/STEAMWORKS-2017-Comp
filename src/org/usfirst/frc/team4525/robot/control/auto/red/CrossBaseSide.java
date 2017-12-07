@@ -5,7 +5,7 @@ import org.usfirst.frc.team4525.robot.operate.autosystems.CommandManager;
 import org.usfirst.frc.team4525.robot.operate.autosystems.commands.DriveStraight;
 import org.usfirst.frc.team4525.robot.util.DashUtil;
 
-/* DONE AND WORKING */
+// Cross the baseline starting from the side on the red side.  
 
 public class CrossBaseSide implements Controller {
 

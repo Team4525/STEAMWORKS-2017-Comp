@@ -12,18 +12,22 @@ public class Gyro implements Sensor {
 		gyro = new ADXRS450_Gyro();
 		calibrate();
 		reset();
+		//Declare, calibrate, and reset the gyro.  
 	}
 	
 	public double get() {
 		return gyro.getAngle();
+		//Get and return the current gyro angle
 	}
 	
 	public void calibrate() {
 		gyro.calibrate();
+		//Calibrate the gyro
 	}
 	
 	public void reset() {
 		gyro.reset();
+		//Reset the gyro
 	}
 	
 }

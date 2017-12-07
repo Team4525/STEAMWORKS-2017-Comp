@@ -11,17 +11,17 @@ public class DriveEncoders implements Sensor {
 
 	public void init() {
 		encode = new Encoder(0, 1, false, EncodingType.k4X);
-		encode.setDistancePerPulse(0.057); // DO NOT CHANGE THIS VALUE
+		encode.setDistancePerPulse(0.057);//Declare and initialize the encoder.  
 	}
 
 	@Override
 	public double get() {
-		return encode.getDistance();
+		return encode.getDistance();//Get and return the distance the encoder has traveled. 
 	}
 
 	@Override
 	public void calibrate() {
-		// nothing here
+		//From the interface
 	}
 
 	@Override

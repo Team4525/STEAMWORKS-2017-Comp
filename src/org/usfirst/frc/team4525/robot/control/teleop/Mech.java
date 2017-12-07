@@ -2,8 +2,6 @@ package org.usfirst.frc.team4525.robot.control.teleop;
 
 import org.usfirst.frc.team4525.robot.control.Controller;
 import org.usfirst.frc.team4525.robot.operate.SubsystemsManager;
-import org.usfirst.frc.team4525.robot.operate.sensors.Sensor;
-import org.usfirst.frc.team4525.robot.operate.sensors.SensorManager;
 import org.usfirst.frc.team4525.robot.operate.subsystems.Clamp;
 import org.usfirst.frc.team4525.robot.operate.subsystems.Climber;
 import org.usfirst.frc.team4525.robot.operate.subsystems.HomePlate;
@@ -13,8 +11,6 @@ import org.usfirst.frc.team4525.robot.util.DashUtil;
 import org.usfirst.frc.team4525.robot.util.XboxController;
 import org.usfirst.frc.team4525.robot.util.XboxController.Axis;
 import org.usfirst.frc.team4525.robot.util.XboxController.Button;
-
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Mech implements Controller {
 	private boolean active = false;
@@ -46,54 +42,43 @@ public class Mech implements Controller {
 				boolean canLift = false;
 				boolean isLifted = false;
 
-				// boolean straitPressed = false;
-
 				boolean a = false;
 				boolean x = false;
 				boolean b = false;
 
 				// Driver loop:
-				while (active == true) {
+				while (active) {
 
 					a = xbox.getButton(Button.A);
 					x = xbox.getButton(Button.X);
 					b = xbox.getButton(Button.B);
 
-					// Gear Clamp
-					/*
-					 * if(x == true && isClamped == false) { clamp.on(); clamped
-					 * = true; isClamped = true; } else if(b == true &&
-					 * isClamped == true) { clamp.off(); clamped = true;
-					 * isClamped = false; } /*else if(x == false) { clamped =
-					 * false; }
-					 */
-					// Gear Lift
-					if (x == true && isLifted == false) {
+					if (x && !isLifted) {
 						lifter.up();
 						clamp.ungrip();
 						//
 						canLift = true;
 						isLifted = true;
-					} else if (b == true && isLifted == true) {
+					} else if (b && isLifted) {
 						lifter.down();
 						clamp.grip();
 						//
 						canLift = true;
 						isLifted = false;
-					} else if (a == false) {
+					} else if (!a) {
 						canLift = false;
 					}
 					// Push the gear
-					if (xbox.getAxis(Axis.TriggerR) > 0.7 && push_gear == false) {
+					if (xbox.getAxis(Axis.TriggerR) > 0.7 && !push_gear) {
 						clamp.ungrip();
 						push.push();
 						push_gear = true;
-					} else if (xbox.getAxis(Axis.TriggerR) < 0.7 && push_gear == true) {
+					} else if (xbox.getAxis(Axis.TriggerR) < 0.7 && push_gear) {
 						push_gear = false;
 					}
 
 					// Climb motor on/off
-					if (xbox.getPOV() == 0 && climb_motor == false) {
+					if (xbox.getPOV() == 0 && !climb_motor) {
 						climb_motor = true;
 						climb.on();
 						pneumat.stopCompressor();

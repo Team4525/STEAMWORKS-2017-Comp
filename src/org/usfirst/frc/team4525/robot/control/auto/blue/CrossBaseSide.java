@@ -5,7 +5,7 @@ import org.usfirst.frc.team4525.robot.operate.autosystems.CommandManager;
 import org.usfirst.frc.team4525.robot.operate.autosystems.commands.DriveStraight;
 import org.usfirst.frc.team4525.robot.util.DashUtil;
 
-/* DONE AND WORKING */
+// Cross the baseline from the side position.  
 
 public class CrossBaseSide implements Controller {
 
@@ -13,7 +13,6 @@ public class CrossBaseSide implements Controller {
 
 	@Override
 	public void start() {
-		// TODO Auto-generated method stub
 		try {
 			commands.queSequential(new DriveStraight(250, 0.7));
 

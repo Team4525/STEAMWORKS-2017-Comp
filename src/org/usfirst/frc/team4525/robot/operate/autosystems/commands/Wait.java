@@ -11,7 +11,7 @@ public class Wait implements Command {
 	private int interval = 0;
 	
 	public Wait(double d) {
-		time = d*1000000;
+		time = d*1000000;//Multiply the time we're waiting by by 1,000,000, to convert to microseconds
 	}
 	
 	public void init() {
@@ -21,7 +21,7 @@ public class Wait implements Command {
 
 	@Override
 	public void execute() {
-		interval++;
+		interval++;//This takes about a microsecond to process, so when we do this "time" times we get the correct amount of wait time
 		if(interval >= time) finished = true;
 	}
 

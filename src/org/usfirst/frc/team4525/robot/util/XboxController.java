@@ -1,8 +1,6 @@
 package org.usfirst.frc.team4525.robot.util;
 
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.GenericHID.RumbleType;
-import edu.wpi.first.wpilibj.hal.HAL;
 
 public class XboxController {
 
@@ -58,17 +56,6 @@ public class XboxController {
 
 	public double getPOV() {
 		double raw = ds.getStickPOV(port, 0);
-		// DriverStation.reportError("POV raw: " + Double.toString(raw), false);
 		return raw;
 	}
-
-	/*
-	 * public void setRumble(RumbleType type, double value) { if (value < 0) {
-	 * value = 0; } else if (value > 1) { value = 1; } if (type ==
-	 * RumbleType.kLeftRumble) { m_leftRumble = (short) (value * 65535); } else
-	 * { m_rightRumble = (short) (value * 65535); }
-	 * HAL.setJoystickOutputs((byte) getPort(), m_outputs, m_leftRumble,
-	 * m_rightRumble); }
-	 */
-
 }

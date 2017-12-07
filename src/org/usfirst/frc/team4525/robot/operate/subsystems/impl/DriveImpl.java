@@ -2,11 +2,10 @@ package org.usfirst.frc.team4525.robot.operate.subsystems.impl;
 
 import org.usfirst.frc.team4525.robot.operate.sensors.Sensor;
 import org.usfirst.frc.team4525.robot.operate.sensors.SensorManager;
-import org.usfirst.frc.team4525.robot.operate.subsystems.*;
+import org.usfirst.frc.team4525.robot.operate.subsystems.Drive;
 import org.usfirst.frc.team4525.robot.util.PIDControl;
 
 import edu.wpi.first.wpilibj.VictorSP;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveImpl implements Drive {
 
@@ -24,11 +23,11 @@ public class DriveImpl implements Drive {
 
 	//
 	private boolean drive_strait = false;
-	//
+	// PID loop
 	private PIDControl driveStrait;
 
-	//
-	private final double strait_correct_time = 1200; // in ns
+	// Drive strait
+	private final double strait_correct_time = 1200;
 	private double current_correct_time = 0;
 	private double correct_time = 0;
 
@@ -37,18 +36,18 @@ public class DriveImpl implements Drive {
 	public void init() {
 		left = new VictorSP[] { new VictorSP(0), new VictorSP(1) };
 		right = new VictorSP[] { new VictorSP(2), new VictorSP(3) };
-		//
+		// Define right and left drive sides as arrays of victors
 		gyro = SensorManager.getInstance().getGyro();
 
 		// Set the PID loop for the drive strait logic
 
-		driveStrait = new PIDControl(0.0025, 0.0000001, 0.0005); // 0.01, 0,
-																	// 0.05
+		driveStrait = new PIDControl(0.0025, 0.0000001, 0.0005);
 		driveStrait.setOutputLimits(0.4);
 		driveStrait.setOutputRampRate(0.05);
 
 	}
 
+	// Reset the gyro and set the current heading to its value
 	public void setStraitTarget(double tgt) {
 		gyroReset = true;
 		driveStrait.setSetpoint(tgt);
@@ -70,15 +69,13 @@ public class DriveImpl implements Drive {
 		double l = 0;
 		double r = 0;
 
+		// Ensure that the power level doesn't exceed are deadzone to cut motor whine
 		if (Math.abs(power) < deadzone)
 			power = 0;
 
-		// button stupid thing
-		// end of button thing
-
 		// Whether we are driving strait or not
-		if (drive_strait == true && (Math.abs(off) <= deadzone && Math.abs(power) > 0)) {
-			if (gyroReset == false) {
+		if (drive_strait && (Math.abs(off) <= deadzone && Math.abs(power) > 0)) {
+			if (!gyroReset) {
 				if (current_correct_time == 0) {
 					current_correct_time = Math.abs(power) * strait_correct_time;
 					correct_time = 0;
@@ -90,56 +87,43 @@ public class DriveImpl implements Drive {
 				} else {
 					correct_time++;
 				}
-			} else { // Looks like we determine the offset value! We're going
-						// strait.
+			} else {
 				double slip = gyro.get();
 				off = driveStrait.getOutput(slip);
 			}
-		} else { // Let's the driver determine the offset.
+		} else { // Lets the driver determine the offset.
 			off = off * 0.7;
 			gyroReset = false;
 			current_correct_time = 0;
 		}
 
 		if (off > 0 && Math.abs(power) > 0.5) {
-			off = off * 0.4; // take 70% of 70%
+			off = off * 0.4;
 		}
 
 		power = power * 0.8;
-		/*
-		 * SmartDashboard.putString("Encoder:", Double.toString(encoder.get()));
-		 * SmartDashboard.putString("DriveStrait Correction:",
-		 * Double.toString(off)); SmartDashboard.putString("Gyro Angle:",
-		 * Double.toString(gyro.get()));
-		 * SmartDashboard.putString("Gyro Difference",
-		 * Double.toString(gyro.get() - offset));
-		 * SmartDashboard.putString("Where You Should be",
-		 * Double.toString(offset));
-		 * SmartDashboard.putString("Distance from front",
-		 * Double.toString(sideSonic.get()));
-		 */
-		// SmartDashboard.putString("POWER", Double.toString(power));
 
-		if (off > 0) {
-			if (power < 0) { // We want to go left
-				l = off - power; // powerset the left drive motors
+		if (off > 0) {// We want to go left
+			if (power < 0) {
+				l = off - power; // set the left drive motors
 				r = Math.max(off, power); // Maximize off on the right drive
 											// motors
-			} else {
+			} else {// We're going backwards
 				l = Math.max(off, -power);
-				r = off + power; // could overflow 1
-			}
-		} else {
-			if (power >= 0) {
-				l = -Math.max(-off, power);
 				r = off + power;
-			} else {
+			}
+		} else {// We want to go right
+			if (power >= 0) {
+				l = off + power;// Set the right drive motors
+				r = -Math.max(-off, power);// Maximize offset on the left drive motors
+			} else {// We're going backwards
 				l = off - power;
 				r = -Math.max(-off, -power);
 			}
 		}
 		setLeft(l);
 		setRight(r);
+		// Set the right and left motors to the variables l and r
 	}
 
 	// If we want to tank drive for some reason instead
@@ -165,14 +149,12 @@ public class DriveImpl implements Drive {
 	private void setLeft(double pow) {
 		for (VictorSP motor : left) {
 			motor.set(pow);
-			// SmartDashboard.putString("left power", Double.toString(pow));
 		}
 	}
 
 	private void setRight(double pow) {
 		for (VictorSP motor : right) {
 			motor.set(pow);
-			// SmartDashboard.putString("right power", Double.toString(pow));
 		}
 	}
 

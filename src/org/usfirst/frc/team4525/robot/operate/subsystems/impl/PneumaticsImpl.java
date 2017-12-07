@@ -8,24 +8,28 @@ public class PneumaticsImpl implements Pneumatics {
 
 	private Compressor comp;
 	
-	@Override
+	
 	public void init() {
 		comp = new Compressor(0);
+		//Define the compressor
 	}
 
-	@Override
+	
 	public void startCompressor() {
 		comp.start();
 		comp.setClosedLoopControl(true);
+		//Start the compressor
 	}
 
-	@Override
+	
 	public void stopCompressor() {
 		comp.stop();
+		//Stop the compressor
 	}
 	
 	public boolean getCompressorRunning() {
 		return comp.getPressureSwitchValue();
+		//Gets and returns the current pressure
 	}
 
 }

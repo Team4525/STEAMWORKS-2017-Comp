@@ -10,7 +10,7 @@ import org.usfirst.frc.team4525.robot.util.PIDControl;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveStraight implements Command {
-
+	//Declare all the objects
 	private SubsystemsManager systems = SubsystemsManager.getInstance();
 	private SensorManager sensors = SensorManager.getInstance();
 	private PIDControl pid;
@@ -22,34 +22,27 @@ public class DriveStraight implements Command {
 	private boolean finished = false;
 	private boolean stop = false;
 	private boolean start = false;
-	// private boolean isSonic = false;
 
 	private double distance;
 	private double headingTarget;
 
-	private final double wait_time_before_start = 100;
-	private double wait_time = 0;
-
 	private PIDControl driveStrait;
-
-	// IT WORKS - <3 eric
-
+	
 	public DriveStraight(double dist, double max_output) {
-		distance = dist * -1;
-		//
+		distance = dist * -1;	//Set up the PID loop
+
 		pid = new PIDControl(0.4, 0.2, 0.5);
 		pid.setOutputRampRate(0.05);
 		pid.setOutputLimits(max_output);
 		pid.setSetpointRange(10);
 		//
-		driveStrait = new PIDControl(0.0025, 0.0000001, 0.0005);// new PIDControl(0.015,
-													// 0.00001, 0.05); // 0.01,
-													// 0, 0.05
+		driveStrait = new PIDControl(0.0025, 0.0000001, 0.0005);
+
 		driveStrait.setOutputLimits(0.4);
 		driveStrait.setOutputRampRate(0.05);
 	}
 
-	public void init() {
+	public void init() {//Reset everything
 		encode.reset();
 		//
 		distance = encode.get() + distance;
@@ -62,7 +55,7 @@ public class DriveStraight implements Command {
 		start = true;
 	}
 
-	public void execute() {
+	public void execute() {//Actually make the robot drive straight
 
 		double output = Math.abs(encode.get());
 		if (output == 0)

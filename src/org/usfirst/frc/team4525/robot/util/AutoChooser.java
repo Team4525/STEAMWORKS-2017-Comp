@@ -42,6 +42,7 @@ public class AutoChooser {
 		AutoMode mode = (AutoMode) autoModes.getSelected();
 		DashUtil.getInstance().log("Running auto for playerstation "+DriverStation.getInstance().toString());
 		
+		//Run the selected autonomous
 		if(ds.getAlliance() == DriverStation.Alliance.Blue) {
 			switch(mode) {
 			case BaseLine :
@@ -82,7 +83,7 @@ public class AutoChooser {
 				return new org.usfirst.frc.team4525.robot.control.auto.red.DropGearCrossBaseMiddle();
 			case DropGearBaseRight :
 				return new org.usfirst.frc.team4525.robot.control.auto.red.DropGearCrossBaseRight();
-			default : // nothing
+			default :
 				return new DoNothing();
 			}
 		}

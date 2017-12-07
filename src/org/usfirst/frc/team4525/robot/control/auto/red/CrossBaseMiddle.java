@@ -4,12 +4,12 @@ import org.usfirst.frc.team4525.robot.control.Controller;
 import org.usfirst.frc.team4525.robot.operate.autosystems.CommandManager;
 import org.usfirst.frc.team4525.robot.operate.autosystems.commands.DriveStraight;
 import org.usfirst.frc.team4525.robot.operate.autosystems.commands.Rotate;
-import org.usfirst.frc.team4525.robot.operate.autosystems.commands.Wait;
 import org.usfirst.frc.team4525.robot.util.DashUtil;
 
 public class CrossBaseMiddle implements Controller {
 
-	// DONE AND WORKS
+	// Cross the baseline starting from the center on the red side.  
+
 
 	private CommandManager commands = CommandManager.getInstance();
 

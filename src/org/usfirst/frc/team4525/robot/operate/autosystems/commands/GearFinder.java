@@ -4,39 +4,35 @@ import org.usfirst.frc.team4525.robot.operate.SubsystemsManager;
 import org.usfirst.frc.team4525.robot.operate.autosystems.Command;
 import org.usfirst.frc.team4525.robot.operate.sensors.Sensor;
 import org.usfirst.frc.team4525.robot.operate.sensors.SensorManager;
-import org.usfirst.frc.team4525.robot.operate.sensors.impl.Vision;
 import org.usfirst.frc.team4525.robot.operate.subsystems.Drive;
-import org.usfirst.frc.team4525.robot.operate.subsystems.Visioning;
-import org.usfirst.frc.team4525.robot.util.DashUtil;
 import org.usfirst.frc.team4525.robot.util.PIDControl;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+
 public class GearFinder implements Command {
 
+	//Declare drivetrain and managers
 	private SubsystemsManager systems = SubsystemsManager.getInstance();
-
 	private Drive dt = systems.getDriveTrain();
 	private Sensor visTarget = SensorManager.getInstance().getVision();
 	private Sensor sonic = SensorManager.getInstance().getFrontRange();
 	private Sensor gyro = SensorManager.getInstance().getGyro();
 
+	//Define vision constants and PID
 	private double visOff = 0;
-
 	private PIDControl pid;
 	private PIDControl dist_pid;
-	private final float anglePerPixel = 0.140094f; // 45/root(640^2 + 320^2)
+	private final float anglePerPixel = 0.140094f;
 	private double angle = 0;
 
-	private boolean hasTarg = false;
 	//
 	private boolean finished = false;
 	private boolean started = false;
 
-	@Override
 	public void init() {
-		//
-		pid = new PIDControl(0.2, 0.01, 0.05); // DO NOT CHANGE THESE
+		//Set up the PID loops
+		pid = new PIDControl(0.2, 0.01, 0.05); 
 		pid.setOutputRampRate(0.05);
 		pid.setOutputLimits(0.6);
 		pid.setSetpointRange(10);
@@ -52,6 +48,7 @@ public class GearFinder implements Command {
 
 	private boolean found_target = false;
 
+	//Find the target
 	private void findTarget() {
 		visOff = visTarget.get();
 		if (visOff != 0) {
@@ -66,7 +63,7 @@ public class GearFinder implements Command {
 
 	@Override
 	public void execute() {
-		if (found_target == false) {
+		if (!found_target) {
 			findTarget();
 		} else if (visOff != 0) {
 			double dist = sonic.get();
@@ -91,7 +88,7 @@ public class GearFinder implements Command {
 
 	@Override
 	public boolean isFinished() {
-		// TODO Auto-generated method stub
+
 		return finished;
 	}
 
@@ -112,7 +109,6 @@ public class GearFinder implements Command {
 
 	@Override
 	public boolean started() {
-		// TODO Auto-generated method stub
 		return started;
 	}
 

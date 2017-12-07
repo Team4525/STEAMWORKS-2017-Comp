@@ -4,9 +4,6 @@ import java.util.ArrayList;
 
 import org.usfirst.frc.team4525.robot.util.DashUtil;
 
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 public class CommandManager {
 
 	private boolean active = false;
@@ -18,19 +15,11 @@ public class CommandManager {
 	}
 
 	private ArrayList<Command> commands = new ArrayList<Command>();
-	private ArrayList<Boolean> parallels = new ArrayList<Boolean>(); // a list
-																		// of
-																		// booleans
-																		// stating
-																		// whether
-																		// its a
-																		// parallel
-																		// command
-																		// or
-																		// sequential
+	private ArrayList<Boolean> parallels = new ArrayList<Boolean>(); // a list of booleans stating whether its a
+																		// parallel command or sequential
 
-	// Que's a command which runs and then starts the next set of things when
-	// its done
+	// Que's a command which runs and then starts the next set of things when its
+	// done
 	public Command queSequential(Command cmd) {
 		commands.add(cmd);
 		parallels.add(false);
@@ -46,19 +35,18 @@ public class CommandManager {
 	}
 
 	public synchronized void start() {
-		if (active == false) {
+		if (!active) {
 			active = true;
-			// DriverStation.reportError("Starting command manager!", false);
-			 new Thread(new Runnable() {
+			new Thread(new Runnable() {
 
 				public void run() {
 					Command sequential = null;
 					ArrayList<Command> running_parallels = new ArrayList<Command>();
 					// Command loop
-					while (active == true) {
+					while (active) {
 						if (sequential == null) {
-							if (commands.isEmpty() == false) {
-								if (parallels.get(0) == true) {
+							if (!commands.isEmpty()) {
+								if (parallels.get(0)) {
 									running_parallels.add(commands.get(0));
 									commands.remove(0);
 									parallels.remove(0);
@@ -69,12 +57,11 @@ public class CommandManager {
 								}
 							}
 
-						} else { // ------- now lets run some commands --------
-									// \\
-							if (sequential.started() == false) {
+						} else { // Runs the actual commands
+							if (!sequential.started()) {
 								sequential.init();
 								DashUtil.getInstance().log("Starting sequential " + sequential.toString());
-							} else if (sequential.isFinished() == true || sequential.interupted() == true) {
+							} else if (sequential.isFinished() || sequential.interupted()) {
 								DashUtil.getInstance().log("Stopping sequential " + sequential.toString());
 								sequential.end();
 								sequential = null;
@@ -84,10 +71,10 @@ public class CommandManager {
 							}
 						}
 						for (Command cmd : running_parallels) {
-							if (cmd.started() == false) {
+							if (!cmd.started()) {
 								cmd.init();
 								DashUtil.getInstance().log("Starting parallel " + cmd.toString());
-							} else if (cmd.isFinished() == true || cmd.interupted() == true) {
+							} else if (cmd.isFinished() || cmd.interupted()) {
 								DashUtil.getInstance().log("Stopping Parallel, " + cmd.toString());
 								cmd.end();
 								running_parallels.remove(cmd);
@@ -97,7 +84,6 @@ public class CommandManager {
 						}
 					}
 					DashUtil.getInstance().log("Autonomous commands stopped.");
-					// DriverStation.reportError("Ending auto!", false);
 					for (Command cmd : running_parallels) {
 						cmd.stop();
 						cmd.end();

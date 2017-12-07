@@ -14,7 +14,8 @@ public class DropGearCrossBaseRight implements Controller {
 
 	private CommandManager commands = CommandManager.getInstance();
 
-	@Override
+	// Drop the gear on the peg and cross the baseline from the right side
+
 	public void start() {
 		// TODO Auto-generated method stub
 		try {

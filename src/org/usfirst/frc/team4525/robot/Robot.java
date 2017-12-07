@@ -5,33 +5,25 @@ import org.usfirst.frc.team4525.robot.control.teleop.Driver;
 import org.usfirst.frc.team4525.robot.control.teleop.Mech;
 import org.usfirst.frc.team4525.robot.operate.SubsystemsManager;
 import org.usfirst.frc.team4525.robot.operate.autosystems.CommandManager;
-import org.usfirst.frc.team4525.robot.operate.sensors.SensorManager;
-import org.usfirst.frc.team4525.robot.util.AutoChooser;
 import org.usfirst.frc.team4525.robot.util.DashUtil;
 
 import edu.wpi.first.wpilibj.SampleRobot;
 
 public class Robot extends SampleRobot {
 
+	// Initialize controllers, dashboard, commandmanager, and auto-chooser, DashUtil
 	private Controller drive, mech;
 	private Controller auto;
 	private DashUtil du;
-
-	private SensorManager sensors;
-	private SubsystemsManager subsystems;
 	private CommandManager commands;
-	private AutoChooser autos;
 
 	public Robot() {
+		// Declare DashUtil
 		du = DashUtil.getInstance();
 		du.log("Loading Steamworks2k17...");
-		//
-		sensors = SensorManager.getInstance();
-		subsystems = SubsystemsManager.getInstance();
+		// Declare commands
 		commands = CommandManager.getInstance();
-		//
-		autos = new AutoChooser();
-		//
+		// Declare Driver and Mechanism controllers
 		drive = new Driver();
 		mech = new Mech();
 		//
@@ -43,22 +35,16 @@ public class Robot extends SampleRobot {
 
 	public void autonomous() {
 		du.log("Starting autonomous mode");
-
-		auto = (Controller) autos.getSelectedAuto();
 		du.log("Running " + auto.toString());
-		//commands.start();
-		//
+		//If auto is running, start autonomous and commands
 		if (auto != null) {
 			auto.start();
 			commands.start();
 		}
-		//
-		/*
-		 * while(isEnabled()) { Network.put("boop", x); x++; Timer.delay(1); }
-		 */
 	}
 
 	public void operatorControl() {
+		//Clear the DashUtil from auto, start the compressor, and start the drive train and mechanisms
 		DashUtil.getInstance().clear();
 		DashUtil.getInstance().log("Starting operator mode.");
 		SubsystemsManager.getInstance().getPneumatics().startCompressor();
@@ -72,13 +58,13 @@ public class Robot extends SampleRobot {
 	}
 
 	protected void disabled() {
-		// DashUtil.getInstance().clear();
+		// Stop the DriveTrain and Compressor
 		drive.stop();
 		SubsystemsManager.getInstance().getPneumatics().stopCompressor();
-		//
+		// If the autonomous is still running, stop it
 		if (auto != null)
 			auto.stop();
-		//
+		// Stop any running commands
 		commands.stop();
 		//
 	}

@@ -11,7 +11,6 @@ public class DashUtil {
 
 	private final String KEY_LOG = "Robot_Log";
 	private String[] logMsgs = new String[10];
-	private SmartDashboard 	dash = new SmartDashboard();
 	private static DashUtil instance = new DashUtil();
 	
 	

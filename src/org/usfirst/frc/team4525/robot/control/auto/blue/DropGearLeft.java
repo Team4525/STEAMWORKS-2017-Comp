@@ -12,7 +12,7 @@ import org.usfirst.frc.team4525.robot.util.DashUtil;
 
 public class DropGearLeft implements Controller {
 
-	// DONE AND WORKING
+	// Drop the gear on the peg starting from the left side
 
 	private CommandManager commands = CommandManager.getInstance();
 

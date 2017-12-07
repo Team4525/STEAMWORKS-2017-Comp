@@ -1,7 +1,6 @@
 package org.usfirst.frc.team4525.robot.operate.sensors.impl;
 
 import org.usfirst.frc.team4525.robot.operate.sensors.Sensor;
-import org.usfirst.frc.team4525.robot.util.PIDControl;
 
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -10,38 +9,38 @@ import edu.wpi.first.wpilibj.tables.ITable;
 public class Vision implements Sensor {
 
 	private NetworkTable tbl;
-	private ITable conts;	
-	
-	private double[] cont = {};
-	
-	private final double image_center_x = 320;
-	private final double camera_offset_x = 0;
+	private ITable conts;
+	// Create network table
 
-	
+	private double[] cont = {};
+	// Creates contour array
+
+	private final double camera_offset_x = 0;
+	// Offset from center
+
 	@Override
 	public void init() {
 		tbl = NetworkTable.getTable("GRIP");
 		conts = tbl.getSubTable("Contours");
+		// Get the network table and contours from outside and assign tbl and conts to
+		// them, respectively.
 
 	}
 
 	@Override
-	public double get() {
-		double[] contours = conts.getNumberArray("centerX",cont);
+	public double get() {//Actually locate the target.  
+		double[] contours = conts.getNumberArray("centerX", cont);
+		//Redefine contours in terms of "centerX"
+		
 		double targetCenter = 0;
-		
+
 		SmartDashboard.putString("Contours:", Integer.toString(contours.length));
-		
-		if(contours.length >= 2) {
-			double diff = Math.abs(contours[0] - contours[1]);
-		//	if(diff <= 200) {
-				double shapeCenter = Math.abs(contours[0] + contours[1])/2;
-				targetCenter = shapeCenter+camera_offset_x;
-		//	} else {
-		//		return 0;
-		//	}
-		} else if(contours.length == 1){
-			targetCenter = contours[0]+camera_offset_x;
+
+		if (contours.length >= 2) {
+			double shapeCenter = Math.abs(contours[0] + contours[1]) / 2;
+			targetCenter = shapeCenter + camera_offset_x;
+		} else if (contours.length == 1) {
+			targetCenter = contours[0] + camera_offset_x;
 		}
 		SmartDashboard.putString("Camera Offset", Double.toString(targetCenter));
 		return targetCenter;
@@ -49,13 +48,12 @@ public class Vision implements Sensor {
 
 	@Override
 	public void calibrate() {
-		// TODO Auto-generated method stub
-
+		//From the interface
 	}
 
 	@Override
 	public void reset() {
-
+		//From the interface
 	}
 
 }

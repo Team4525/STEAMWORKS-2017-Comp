@@ -33,7 +33,7 @@ public class Rotate implements Command {
 
 	public Rotate(double degrees) {
 		deg = degrees;
-		pid = new PIDControl(0.08, 0.002, 0.05); // DO NOT CHANGE THESE
+		pid = new PIDControl(0.08, 0.002, 0.05); // Setting up the pid loop
 		pid.setOutputRampRate(0.05);
 		pid.setOutputLimits(0.6);
 		pid.setSetpointRange(10);
@@ -41,7 +41,7 @@ public class Rotate implements Command {
 
 	public void init() {
 		target_point = gyro.get() + deg;
-		drive_train.setDeadZone(0);
+		drive_train.setDeadZone(0);//Initalize the gyro, drive train, and pid loop
 		pid.setSetpoint(target_point);
 		SmartDashboard.putString("Target point", Double.toString(target_point));
 		start = true;
@@ -49,8 +49,8 @@ public class Rotate implements Command {
 
 	public void execute() {
 		double gv = gyro.get();
-		if (inRange(gv) == false) {
-			double rot_power = pid.getOutput(gv);
+		if (!inRange(gv)) {
+			double rot_power = pid.getOutput(gv);//Start the pid loop
 
 			SmartDashboard.putString("Target Progress", Double.toString(gv));
 			//

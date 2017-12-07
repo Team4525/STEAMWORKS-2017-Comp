@@ -14,7 +14,7 @@ public class DropGearRight implements Controller {
 
 	private CommandManager commands = CommandManager.getInstance();
 
-	@Override
+	// Drop the gear on the peg starting from the right side
 	public void start() {
 		// TODO Auto-generated method stub
 		try {

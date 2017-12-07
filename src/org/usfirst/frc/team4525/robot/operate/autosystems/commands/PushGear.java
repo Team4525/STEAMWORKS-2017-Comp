@@ -5,18 +5,18 @@ import org.usfirst.frc.team4525.robot.operate.autosystems.Command;
 import org.usfirst.frc.team4525.robot.operate.subsystems.*;
 
 public class PushGear implements Command {
-
+	//Declare objects
 	private Puncher puncher;
 	private boolean finished = false;
 	private boolean started = false;
 	
-	public void init() {
+	public void init() {//Initialize the puncher
 		puncher = SubsystemsManager.getInstance().getGearPuncher();
 		started = true;
 	}
 
 	@Override
-	public void execute() {
+	public void execute() {//Actually punch out the gear.  
 		puncher.push();
 		finished = true;
 	}

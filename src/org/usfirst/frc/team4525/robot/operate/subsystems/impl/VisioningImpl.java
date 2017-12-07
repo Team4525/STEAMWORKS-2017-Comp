@@ -1,7 +1,5 @@
 package org.usfirst.frc.team4525.robot.operate.subsystems.impl;
 
-import org.usfirst.frc.team4525.robot.operate.SubSystem;
-import org.usfirst.frc.team4525.robot.operate.SubsystemsManager;
 import org.usfirst.frc.team4525.robot.operate.sensors.Sensor;
 import org.usfirst.frc.team4525.robot.operate.sensors.SensorManager;
 import org.usfirst.frc.team4525.robot.operate.subsystems.Drive;
@@ -9,42 +7,36 @@ import org.usfirst.frc.team4525.robot.operate.subsystems.Visioning;
 import org.usfirst.frc.team4525.robot.util.DashUtil;
 import org.usfirst.frc.team4525.robot.util.PIDControl;
 
-import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.tables.ITable;
 
 public class VisioningImpl implements Visioning {
 
+	// Declare sensors
 	private Sensor sonic = SensorManager.getInstance().getFrontRange();
 	private Sensor vision = SensorManager.getInstance().getVision();
 	private Sensor gyro = SensorManager.getInstance().getGyro();
-
+	// Declare drive
 	private Drive dt;
-	private double rotation_angle = 0;
 
+	// Constructor
 	public VisioningImpl(Drive drive_train) {
 		dt = drive_train;
 	}
 
-	// private Drive dt;
-
-	private double dist = 0;
-	private final double imgCenterX = 320;
-
-	private double[] cont = {};
-	private final double pi = Math.PI;
-
 	private boolean run = false;
+	// Declare pid
 	private PIDControl pid;
 	private PIDControl dist_pid;
-	private final float anglePerPixel = 0.140094f; // 45/root(640^2 + 320^2)
+	// Constant used to calculate angle.
+	private final float anglePerPixel = 0.140094f;
 
 	public void init() {
-		pid = new PIDControl(0.01, 0, 0.05); // DO NOT CHANGE THESE
+		// Give the pid loop values to the pid loop
+		pid = new PIDControl(0.01, 0, 0.05);
 		pid.setOutputRampRate(0.05);
 		pid.setOutputLimits(0.4);
 		pid.setSetpointRange(10);
-
+		//
 		dist_pid = new PIDControl(0.4, 0.2, 0.5);
 		dist_pid.setOutputRampRate(0.05);
 		dist_pid.setOutputLimits(0.5);
@@ -52,24 +44,21 @@ public class VisioningImpl implements Visioning {
 	}
 
 	public void goToTarget() {
-		if (run == false) {
+		if (!run) {
 			run = true;
+			// Start a new thread to locate the target
 			new Thread(new Runnable() {
 				public void run() {
 					dist_pid.setSetpoint(5);
 
-					//
-					//
 					DashUtil.getInstance().log("Correcting Vision");
 
 					double dist = 0;
 					double power = 0;
 					double off = 0;
 
-					boolean centered = false;
-
 					double visOff = 0;
-					while (run == true && visOff == 0) {
+					while (run && visOff == 0) {
 						visOff = vision.get();
 					}
 
@@ -81,7 +70,7 @@ public class VisioningImpl implements Visioning {
 
 					DashUtil.getInstance().log("Going for target!");
 
-					while (run == true) {
+					while (run) {
 
 						dist = sonic.get();
 						power = dist_pid.getOutput(dist);
@@ -106,9 +95,7 @@ public class VisioningImpl implements Visioning {
 						SmartDashboard.putString("Vision Drive Power", Double.toString(power));
 						SmartDashboard.putString("Vision Correct:", Double.toString(off));
 					}
-					//
 
-					//
 					dt.drive(0, 0);
 					DashUtil.getInstance().log("Not Correcting Vision");
 					SmartDashboard.putString("vision", "Inactive");

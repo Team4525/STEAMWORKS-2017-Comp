@@ -16,7 +16,7 @@ public class DropGearRight implements Controller {
 
 	@Override
 	public void start() {
-		// TODO Auto-generated method stub
+		// Drop the gear on the peg starting from the right side on the red side.  
 		try {
 
 			commands.queSequential(new DriveStraight(87, 0.5));

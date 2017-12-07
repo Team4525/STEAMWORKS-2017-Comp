@@ -12,6 +12,9 @@ import org.usfirst.frc.team4525.robot.util.DashUtil;
 
 public class DropGearCrossBaseRight implements Controller {
 
+	// Drop the gear on the peg and cross the baseline starting from the right on the red side.  
+
+	
 	private CommandManager commands = CommandManager.getInstance();
 
 	@Override

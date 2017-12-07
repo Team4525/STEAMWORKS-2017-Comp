@@ -6,9 +6,7 @@ public class Piston {
 
     private final Solenoid extend, retract;
     private boolean isExtended;
-    private int count;
     
-    private boolean is_counting = false;
 
     // Constructor
     public Piston(int extendPos, int retractPos, boolean isExtended) {
@@ -17,7 +15,6 @@ public class Piston {
 
         this.isExtended = isExtended;
 
-        count = 0;
     }
 
     // Setters/Getters
@@ -31,7 +28,6 @@ public class Piston {
             extend.set(true);
             isExtended = true;
 
-            this.count = 0;
         }
     }
 
@@ -41,7 +37,6 @@ public class Piston {
             retract.set(true);
             this.isExtended = false;
 
-            this.count = 0;
         }
     }
 
@@ -56,23 +51,6 @@ public class Piston {
 
     public boolean isRetracted() {
         return !isExtended;
-    }
-
-    public synchronized void countTime() {
-  /*  	if(is_counting == false) { 
-    		is_counting = true;
-	    	new Thread(new Runnable(){
-				public void run() {
-			        while (count < 50) {
-			            count++;
-			        }
-			        if(count >= 50) off();
-			        is_counting = false;
-				}
-	    		
-	    	}).start(); 
-    	} */
-
     }
 
 }

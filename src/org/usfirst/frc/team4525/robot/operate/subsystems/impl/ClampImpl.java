@@ -7,21 +7,19 @@ public class ClampImpl implements Clamp {
 
 	private Piston clamp;
 
-	private boolean is_clamped = false;
-
 	public void init() {
-		clamp = new Piston(0,1, true); // 1,0, true
+		clamp = new Piston(0,1, true);
+		//Define the clamp
 	}
 
 	public void grip() {
 		clamp.extend();
-		clamp.countTime();
+		//Close the clamp
 	}
 
-	// @Override
 	public void ungrip() {
 		clamp.retract();
-		clamp.countTime();
+		//Open the clamp
 	}
 
 }
